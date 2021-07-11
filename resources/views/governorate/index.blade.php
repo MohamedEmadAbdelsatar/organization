@@ -4,6 +4,14 @@
 
 @section('content_header')
     <div class="row" dir="rtl"><h1 style="float:right;">المحافظات</h1></div>
+    <br>
+    @if (\Session::has('success'))
+        <div class="alert alert-success" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;"><li>{!! \Session::get('success') !!}</li></li>
+            </ul>
+        </div>
+    @endif
 @stop
 
 @section('content')
@@ -19,7 +27,10 @@
         <div class="form-group row" style="text-align: right;">
           <label for="name" class=" col-form-label" style="padding-left: 0px;">إسم المحافظة</label>
           <div class="col-sm-6">
-            <input type="text" class="form-control" id="name" placeholder="الإسم" name="name">
+            <input type="text" class="form-control" id="name" placeholder="الإسم" name="name" required>
+            @if($errors->has('name'))
+                <span class="error" style="width:100%;margin-top: .25rem;font-size: 80%;color: #dc3545;">{{ $errors->first('name') }}</span>
+            @endif
           </div>
           <div class="col-sm-3">
             <button type="submit" class="btn btn-info" style="width:80px;">حفظ</button>
@@ -48,12 +59,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd">
-                                @foreach($governorates as $governorate)
-                                <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">{{$governorate->name}}</span></td>
-                                <td><span style="float:right;">تعديل - حذف</span></td>
-                                @endforeach
-                            </tr>
+                            @foreach($governorates as $governorate)
+                                <tr class="odd">
+                                    <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">{{$governorate->name}}</span></td>
+                                    <td><span style="float:right;">تعديل - حذف</span></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

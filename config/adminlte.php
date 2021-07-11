@@ -265,6 +265,21 @@ return [
             'text'        => 'المقترضين',
             'url'         => '/borrowers',
             'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'القروض',
+            'url'         => '/loans',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'تسديد قرض',
+            'url'         => '/loan/pay',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'طباعة التقارير',
+            'url'         => '/print',
+            'icon'        => 'far fa-fw fa-file',
         ]
         /*,
         ['header' => 'account_settings'],
@@ -374,17 +389,17 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
