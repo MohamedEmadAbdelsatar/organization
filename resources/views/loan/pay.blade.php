@@ -60,7 +60,7 @@
         var id = $(this).val()
         var token = $('input[name="_token"]').val();
         $.ajax({
-            url:'/borrowers/loans',
+            url:'/borrower/loans',
             method:'post',
             data:{
                 id:id,

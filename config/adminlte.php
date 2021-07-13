@@ -235,17 +235,6 @@ return [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
-
-        // Sidebar items:
-        /*[
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],*/
         [
             'text'        => 'المحافظات',
             'url'         => '/governorates',
@@ -254,6 +243,11 @@ return [
         [
             'text'        => 'المدن',
             'url'         => '/cities',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'الحسابات',
+            'url'         => '/accounts',
             'icon'        => 'far fa-fw fa-file',
         ],
         [
@@ -272,15 +266,25 @@ return [
             'icon'        => 'far fa-fw fa-file',
         ],
         [
+            'text'        => 'الوارد',
+            'url'         => '/imports',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
             'text'        => 'تسديد قرض',
             'url'         => '/loan/pay',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'تسديد وارد',
+            'url'         => '/import/pay',
             'icon'        => 'far fa-fw fa-file',
         ],
         [
             'text'        => 'طباعة التقارير',
             'url'         => '/print',
             'icon'        => 'far fa-fw fa-file',
-        ]
+        ],
         /*,
         ['header' => 'account_settings'],
         [
@@ -430,11 +434,11 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],

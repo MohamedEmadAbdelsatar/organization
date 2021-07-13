@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Loan;
 use App\Models\LoanMonths;
 use App\Models\Borrower;
+use App\Models\Account;
 
 class LoanController extends Controller
 {
@@ -13,7 +14,8 @@ class LoanController extends Controller
     {
         $loans = Loan::all();
         $borrowers = Borrower::all();
-        return view('loan.index',compact('loans','borrowers'));
+        $accounts = Account::all();
+        return view('loan.index',compact('loans','borrowers','accounts'));
     }
 
     public function loan_save(Request $request)
@@ -26,7 +28,6 @@ class LoanController extends Controller
             'start_year' => 'required|numeric|min:0|not_in:0',
             'end' => 'required|numeric|min:0|not_in:0',
             'end_year' => 'required|numeric|min:0|not_in:0',
-
         ],[
             'borrower_id.required' => 'يجب إختيار عميل مقترض',
             'value.required' => 'يجب أدخال قيمة القرض',
@@ -54,12 +55,19 @@ class LoanController extends Controller
             'end_year.min' => 'يجب أن تكون سنة النهاية أكبر من صفر',
             'end_year.not_in' => 'يجب أن تكون سنة النهاية أكبر من صفر',
         ]);
-
+        $account = Account::find($request->account_id);
+        if($account->charge < $request->value){
+            return redirect()->back()->with('fail','رصيد الحساب لا يكفى');
+        } else{
+            $account->charge -= $request->value;
+            $account->save();
+        }
         //return $request->all();
         $total = $request->value + ($request->value * $request->earn / 100);
         $installment = $total/12;
         $loan = new Loan;
         $loan->borrower_id = $request->borrower_id;
+        $loan->account_id = $request->account_id;
         $loan->earn = $request->earn;
         $loan->value = $request->value;
         $loan->total = number_format((float)$total, 2, '.', '');
@@ -151,6 +159,7 @@ class LoanController extends Controller
         $month->status = 1;
         $month->save();
 
+
         $paid_months = LoanMonths::where(['loan_id'=>$request->loan_id,'status' => '1'])->get();
         $n = count($paid_months);
         $loan = Loan::find($request->load_id);
@@ -161,7 +170,16 @@ class LoanController extends Controller
         }
         $loan->save();
 
+        $account = Account::find($loan->account_id);
+        $account->charge += $month->value;
+        $account->save();
+
         return redirect()->back()->with('success','تم تسديد الشهر  بنجاح');
 
+    }
+
+    public function loan_show($id){
+        $loan = Loan::find($id);
+        return view('loan.show', compact('loan'));
     }
 }

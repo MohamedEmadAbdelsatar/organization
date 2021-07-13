@@ -5,10 +5,17 @@
 @section('content_header')
     <div class="row" dir="rtl"><h1 style="float:right;">القروض</h1></div>
     <br>
+    @if (\Session::has('fail'))
+        <div class="alert alert-danger" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;">{!! \Session::get('fail') !!}</li>
+            </ul>
+        </div>
+    @endif
     @if (\Session::has('success'))
         <div class="alert alert-success" dir="rtl">
             <ul dir="rtl">
-                <li style="float:right;"><li>{!! \Session::get('success') !!}</li></li>
+                <li style="float:right;">{!! \Session::get('success') !!}</li>
             </ul>
         </div>
     @endif
@@ -44,11 +51,19 @@
                     @endif
                 </div>
                 <label for="earn" class="col-form-label" style="padding-left: 0px;">قيمة المعاملة</label>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <input type="text" class="form-control" id="earn" name="earn" placeholder="أدخل قيمة القرض" value="16" readonly>
                     @if($errors->has('earn'))
                         <span class="error" style="width:100%;margin-top: .25rem;font-size: 80%;color: #dc3545;">{{ $errors->first('earn') }}</span>
                     @endif
+                </div>
+                <label for="account_id" class="col-form-label" style="padding-left: 0px;"> إقتراض من</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="account_id" name="account_id" required>
+                        @foreach ($accounts as $account)
+                            <option value="{{$account->id}}">{{$account->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="form-group row" style="text-align: right;">
@@ -143,7 +158,7 @@
                                     <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">{{$loan->value}}</span></td>
                                     <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">{{$loan->remaining}}</span></td>
                                     <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">@if($loan->status == 0) {{'غير مسدد'}} @else {{'مسدد'}} @endif</span></td>
-                                    <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">تعديل - حذف</span></td>
+                                    <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;"><a type="button" class="btn btn-success active" href="{{route('loan.show',$loan->id)}}">التفاصيل</a> - <button type="button" class="btn btn-danger del-btn delete-one" title="مسح" data-url="{{route('loan.destroy', $loan->id)}}">حذف</button></span></td>
                                 </tr>
                             @endforeach
                         </tbody>

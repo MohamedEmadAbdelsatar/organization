@@ -7,8 +7,8 @@
     <br>
     @if (\Session::has('success'))
         <div class="alert alert-success" dir="rtl">
-            <ul dir="rtl">
-                <li style="float:right;"><li>{!! \Session::get('success') !!}</li></li>
+            <ul>
+                <li style="float:right;">{!! \Session::get('success') !!}</li>
             </ul>
         </div>
     @endif
@@ -62,7 +62,7 @@
                             @foreach($governorates as $governorate)
                                 <tr class="odd">
                                     <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">{{$governorate->name}}</span></td>
-                                    <td><span style="float:right;">تعديل - حذف</span></td>
+                                    <td><span style="float:right;"><a type="button" class="btn btn-success active" href="{{route('governorate.edit',$governorate->id)}}">تعديل</a> - <button type="button" class="btn btn-danger del-btn delete-one" title="مسح" data-url="{{route('governorate.destroy', $governorate->id)}}">حذف</button></span></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -81,14 +81,54 @@
 
 @section('js')
 <script>
-    $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
+    $(document).ready(function(){
+            $('body').on('click', '.delete-one', function () {
+                let url = $(this).data('url');
+                Swal.fire({
+                    title: "هل انت متأكد؟",
+                    text: "هل انت متأكد من انك تريد مسح المطعم بكل ما فيه؟",
+                    type: "question",
+                    showCancelButton: !0,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "نعم متأكد!",
+                    cancelButtonText: "الغاء",
+                }).then(function (t) {
+                    if (t.value) {
+                        let formElement = document.createElement('form');
+                        formElement.setAttribute('action', url);
+                        formElement.setAttribute('method', 'post');
+                        formElement.setAttribute('class', 'd-none');
+
+                        let tokenElement = document.createElement('input');
+                        tokenElement.setAttribute('name', '_token');
+                        tokenElement.setAttribute('value', '{{ csrf_token() }}');
+                        tokenElement.setAttribute('type', 'hidden');
+
+                        formElement.append(tokenElement);
+
+                        let methodElement = document.createElement('input');
+                        methodElement.setAttribute('name', '_method');
+                        methodElement.setAttribute('value', 'DELETE');
+                        methodElement.setAttribute('type', 'hidden');
+
+                        formElement.append(methodElement);
+
+                        $("body").append(formElement);
+
+                        formElement.submit();
+                    }
+                });
+            });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
     });
 </script>
 @stop

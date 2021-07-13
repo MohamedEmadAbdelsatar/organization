@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2021 at 02:25 AM
+-- Generation Time: Jul 12, 2021 at 08:32 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -21,6 +21,51 @@ SET time_zone = "+00:00";
 --
 -- Database: `project`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `batches`
+--
+
+CREATE TABLE `batches` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_id` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `import_id` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month_name` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `late` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `value` text COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `batches`
+--
+
+INSERT INTO `batches` (`id`, `supplier_id`, `import_id`, `year`, `month`, `type`, `month_name`, `status`, `late`, `created_at`, `updated_at`, `value`) VALUES
+(89, '1', '9', '2021', '1', '1', 'يناير', '0', '0', '2021-07-12 16:14:31', '2021-07-12 16:14:31', '166666.67'),
+(90, '1', '9', '2021', '7', '1', 'يوليو', '0', '0', '2021-07-12 16:14:31', '2021-07-12 16:14:31', '166666.67'),
+(91, '1', '9', '2022', '1', '1', 'يناير', '0', '0', '2021-07-12 16:14:31', '2021-07-12 16:14:31', '166666.67'),
+(92, '1', '9', '2022', '7', '1', 'يوليو', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '166666.67'),
+(93, '1', '9', '2023', '1', '1', 'يناير', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '166666.67'),
+(94, '1', '9', '2023', '7', '1', 'يوليو', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '166666.67'),
+(95, '1', '9', '2021', '1', '2', 'يناير', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(96, '1', '9', '2021', '4', '2', 'إبريل', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(97, '1', '9', '2021', '7', '2', 'يوليو', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(98, '1', '9', '2021', '10', '2', 'أكتوبر', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(99, '1', '9', '2022', '1', '2', 'يناير', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(100, '1', '9', '2022', '4', '2', 'إبريل', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(101, '1', '9', '2022', '7', '2', 'يوليو', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(102, '1', '9', '2022', '10', '2', 'أكتوبر', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(103, '1', '9', '2023', '1', '2', 'يناير', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(104, '1', '9', '2023', '4', '2', 'إبريل', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(105, '1', '9', '2023', '7', '2', 'يوليو', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00'),
+(106, '1', '9', '2023', '10', '2', 'أكتوبر', '0', '0', '2021-07-12 16:14:32', '2021-07-12 16:14:32', '10000.00');
 
 -- --------------------------------------------------------
 
@@ -53,7 +98,7 @@ CREATE TABLE `borrowers` (
 --
 
 INSERT INTO `borrowers` (`id`, `name`, `city_id`, `governorate_id`, `phone`, `national_id`, `location`, `job`, `guaranator_name`, `guaranator_city_id`, `guaranator_governorate_id`, `guaranator_phone`, `guaranator_national_id`, `guaranator_location`, `guaranator_job`, `created_at`, `updated_at`) VALUES
-(1, 'محمد', '1', '1', '21655613419', '0123456', 'شبرا', 'مهندس', 'أحمد', '3', '1', '01003621629', '1515151', 'رمسيس', 'مدرس', '2021-07-07 09:47:35', '2021-07-07 09:47:35');
+(1, 'محمد', '1', '1', '21655613419', '12121212121212', 'شبرا', 'مهندس', 'أحمد', '3', '1', '01103621629', '15151515151515', 'رمسيس', 'مدرس', '2021-07-07 09:47:35', '2021-07-11 23:30:50');
 
 -- --------------------------------------------------------
 
@@ -75,8 +120,8 @@ CREATE TABLE `cities` (
 
 INSERT INTO `cities` (`id`, `name`, `governorate_id`, `created_at`, `updated_at`) VALUES
 (1, 'شبرا', '1', '2021-07-06 12:28:55', '2021-07-06 12:28:55'),
-(2, '6أكتوبر', '2', NULL, NULL),
-(3, 'رمسيس', '1', NULL, NULL);
+(2, '6أكتوبر', '2', NULL, '2021-07-11 21:54:33'),
+(3, 'مدينة نصر', '1', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -112,8 +157,47 @@ CREATE TABLE `governorates` (
 
 INSERT INTO `governorates` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'القاهرة', '2021-07-06 12:08:49', '2021-07-06 12:08:49'),
-(2, 'الجيزة', NULL, NULL),
-(3, 'الإسكندرية', NULL, NULL);
+(2, 'الجيزه', NULL, '2021-07-11 21:15:54'),
+(4, 'القليوبية', '2021-07-11 21:19:06', '2021-07-11 21:19:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `imports`
+--
+
+CREATE TABLE `imports` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_id` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `earn` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `base_installment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `interest_installment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `interest` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `base_remaining` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `interest_remaining` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `base_payment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `interest_payment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `base_status` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `interest_status` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `base_total_paid` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `interest_total_paid` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `period` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `end` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_year` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `end_year` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `imports`
+--
+
+INSERT INTO `imports` (`id`, `supplier_id`, `value`, `earn`, `base_installment`, `interest_installment`, `total`, `interest`, `base_remaining`, `interest_remaining`, `base_payment`, `interest_payment`, `base_status`, `interest_status`, `base_total_paid`, `interest_total_paid`, `period`, `start`, `end`, `start_year`, `end_year`, `created_at`, `updated_at`) VALUES
+(9, '1', '1000000', '12', '166666.67', '10000.00', '1120000.00', '120000', '0', '0', '6', '3', '0', '0', '0', '0', '36', '1', '1', '2021', '2024', '2021-07-12 16:14:31', '2021-07-12 16:14:31');
 
 -- --------------------------------------------------------
 
@@ -139,13 +223,6 @@ CREATE TABLE `loans` (
   `status` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `loans`
---
-
-INSERT INTO `loans` (`id`, `borrower_id`, `value`, `earn`, `installment`, `start`, `end`, `created_at`, `updated_at`, `remaining`, `start_year`, `end_year`, `total`, `total_paid`, `status`) VALUES
-(7, '1', '1000', '16', '96.67', '5', '4', '2021-07-10 12:57:19', '2021-07-10 13:07:08', '1063.33', '2021', '2022', '1160.00', '96.67', '0');
-
 -- --------------------------------------------------------
 
 --
@@ -165,24 +242,6 @@ CREATE TABLE `loans_months` (
   `month_name` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `borrower_id` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `loans_months`
---
-
-INSERT INTO `loans_months` (`id`, `index`, `year`, `value`, `loan_id`, `created_at`, `updated_at`, `status`, `late`, `month_name`, `borrower_id`) VALUES
-(50, '5', '2021', '116.004', '7', '2021-07-10 12:57:19', '2021-07-10 20:14:41', '0', '2', 'مايو', '1'),
-(51, '6', '2021', '106.337', '7', '2021-07-10 12:57:19', '2021-07-10 20:17:40', '0', '1', 'يونيو', '1'),
-(52, '7', '2021', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'يوليو', '1'),
-(53, '8', '2021', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'أغسطس', '1'),
-(54, '9', '2021', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'سبتمبر', '1'),
-(55, '10', '2021', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'أكتوبر', '1'),
-(56, '11', '2021', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'نوفمبر', '1'),
-(57, '12', '2021', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'ديسمبر', '1'),
-(58, '1', '2022', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'يناير', '1'),
-(59, '2', '2022', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'فبراير', '1'),
-(60, '3', '2022', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'مارس', '1'),
-(61, '4', '2022', '96.67', '7', '2021-07-10 12:57:19', '2021-07-10 12:57:19', '0', '0', 'إبريل', '1');
 
 -- --------------------------------------------------------
 
@@ -215,7 +274,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2021_07_10_072934_add_total_paid_to_loans_table', 9),
 (15, '2021_07_10_080114_add_status_to_loans_table', 10),
 (16, '2021_07_10_144503_add_month_name_to_loans_months_table', 11),
-(17, '2021_07_10_212133_add_borrower_id_to_loans_months_table', 12);
+(17, '2021_07_10_212133_add_borrower_id_to_loans_months_table', 12),
+(18, '2021_07_11_131605_create_import_table', 13),
+(19, '2021_07_12_160710_create_batches_table', 14),
+(20, '2021_07_12_173406_add_value_to_batches_table', 15);
 
 -- --------------------------------------------------------
 
@@ -272,11 +334,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'test', 'test@test.com', NULL, '$2y$10$tPWIVB8dtC/BTYgDdL.oY.aKdq3kU/w40kKKGOsoKjcU2C8R7uX3e', 'JxwdssVV6bOTvicN7b5YgJqAk5SnvBUXkYZ0TJV90vc0xnZOiHibSAvYFMLO', '2021-07-05 21:12:10', '2021-07-05 21:12:10');
+(1, 'test', 'test@test.com', NULL, '$2y$10$tPWIVB8dtC/BTYgDdL.oY.aKdq3kU/w40kKKGOsoKjcU2C8R7uX3e', 'WhiARuuThIGDydZqXSMbG3Mc9YwjAYBZ33XuXlQlmCReDaEvBdKOSGZuDiEw', '2021-07-05 21:12:10', '2021-07-05 21:12:10');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `batches`
+--
+ALTER TABLE `batches`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `borrowers`
@@ -300,6 +368,12 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `governorates`
 --
 ALTER TABLE `governorates`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `imports`
+--
+ALTER TABLE `imports`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -344,6 +418,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `batches`
+--
+ALTER TABLE `batches`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+
+--
 -- AUTO_INCREMENT for table `borrowers`
 --
 ALTER TABLE `borrowers`
@@ -365,7 +445,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `governorates`
 --
 ALTER TABLE `governorates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `imports`
+--
+ALTER TABLE `imports`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `loans`
@@ -383,7 +469,7 @@ ALTER TABLE `loans_months`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
