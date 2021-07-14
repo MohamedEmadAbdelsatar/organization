@@ -34,8 +34,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div id="myrow" class="form-group row col-sm-8" style="text-align: right;"></div>
-
+                <div id="myloan" class="form-group row col-sm-4" style="text-align: right;"></div>
+                <div id="mymonth" class="form-group row col-sm-4" style="text-align: right;"></div>
             </div>
             <div class="form-group row" style="text-align: right;">
                 <div class="col-sm-2">
@@ -56,61 +56,72 @@
 @section('js')
 <script>
     $('#supplier_id').on('change', function(){
-
+        $('#myloan').empty();
+        $('#mymonth').empty();
         var id = $(this).val()
         var token = $('input[name="_token"]').val();
-        $.ajax({
-            url:'/supplier/imports',
-            method:'post',
-            data:{
-                id:id,
-                _token:token,
-            },
-            success:function(response){
-                if(typeof(response) != 'object')
-                {
-                    alert(response)
-                }
-                else
-                {
-                    var html = '<label for="load_id" class=" col-form-label" style="padding-left: 0px;">إختر التوريد</label><div class="col-sm-4"><select class="form-control" id="import_id" name="import_id"><option></option>';
-                    $.each(response, function(index, element){
-                        html += '<option value="'+element.id+'">'+element.value+'</option>';
-                    })
-                    html += '</select></div>'
-                    $('#myrow').append(html);
-                }
-                $('#import_id').on('change', function(){
-                    var import_id = $(this).val()
-                    var token = $('input[name="_token"]').val();
-                    $.ajax({
-                    url:'/import/batches',
-                    method:'post',
-                    data:{
-                        import_id:import_id,
-                        _token:token,
-                    },
-                    success:function(response){
-                        var html = '<label for="batch_id" class=" col-form-label" style="padding-left: 0px;">إختر القسط</label><div class="col-sm-4"><select class="form-control" id="batch_id" name="batch_id"><option></option>';
+        if(id){
+            $.ajax({
+                url:'/supplier/imports',
+                method:'post',
+                data:{
+                    id:id,
+                    _token:token,
+                },
+                success:function(response){
+                    $('#myloan').empty();
+                    if(typeof(response) != 'object')
+                    {
+                        alert(response)
+                    }
+                    else
+                    {
+                        var html = '<label for="load_id" class=" col-form-label" style="padding-left: 0px;">إختر التوريد</label><div class="col-sm-8"><select class="form-control" id="import_id" name="import_id"><option></option>';
                         $.each(response, function(index, element){
-                            if(element.type == '1'){
-                                var type = 'الأساسى';
-                            } else {
-                                var type = 'الفوائد';
-                            }
-                            html += '<option value="'+element.id+'">'+element.month_name+' - '+element.value+' - '+type+'</option>';
+                            html += '<option value="'+element.id+'">'+element.value+'</option>';
                         })
                         html += '</select></div>'
-                        $('#myrow').append(html);
+                        $('#myloan').append(html);
                     }
+                    $('#import_id').on('change', function(){
+                        var import_id = $(this).val()
+                        var token = $('input[name="_token"]').val();
+                        $('#mymonth').empty();
+                        if(import_id){
+                            $.ajax({
+                                url:'/import/batches',
+                                method:'post',
+                                data:{
+                                    import_id:import_id,
+                                    _token:token,
+                                },
+                                success:function(response){
+                                    $('#mymonth').empty();
+                                    if(typeof(response) != 'object')
+                                    {
+                                        alert(response)
+                                    }
+                                    else
+                                    {
+                                        var html = '<label for="batch_id" class=" col-form-label" style="padding-left: 0px;">إختر القسط</label><div class="col-sm-8"><select class="form-control" id="batch_id" name="batch_id"><option></option>';
+                                        $.each(response, function(index, element){
+                                            if(element.type == '1'){
+                                                var type = 'الأساسى';
+                                            } else {
+                                                var type = 'الفوائد';
+                                            }
+                                            html += '<option value="'+element.id+'">'+element.month_name+' - '+element.value+' - '+type+'</option>';
+                                        })
+                                        html += '</select></div>'
+                                        $('#mymonth').append(html);
+                                    }
+                                }
+                            })
+                        }
                     })
-
-                })
-            }
-
-        });
-
+                }
+            });
+        }
     });
-
 </script>
 @stop

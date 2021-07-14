@@ -140,7 +140,6 @@
                         <span class="error" style="width:100%;margin-top: .25rem;font-size: 80%;color: #dc3545;">{{ $errors->first('interest_payment') }}</span>
                     @endif
                 </div>
-                <label for="account_id" class="col-form-label" style="padding-left: 0px;"> حفظ فى</label>
             </div>
             <div class="form-group row" style="text-align: right;">
                 <div class="col-sm-2">
@@ -201,12 +200,13 @@
 <script>
     $('#start, #start_year, #period').on('change', function(){
         var start_month = parseInt($('#start').val())
+        start_month--
         var start_year = parseInt($('#start_year').val())
         var period = parseInt($('#period').val())
         var years = 0;
         var months = 0;
-        //console.log(period+start_month+start_year)
-        if(start_month && start_year && period){
+        console.log(period+' - '+start_month+' - '+start_year)
+        if(start_year && period){
             if(period > 12){
                 years = Math.floor(period / 12);
                 months = period % 12;
@@ -215,7 +215,7 @@
                     months = months - 12;
                 }
             } else {
-                if((start_month+period) >= 12){
+                if((start_month+period) >= 13){
                     years = 1;
                     months += period-12;
                 } else {

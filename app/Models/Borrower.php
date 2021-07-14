@@ -9,7 +9,20 @@ class Borrower extends Model
     protected $table = "borrowers";
 
     protected $fillable = [
-        'name', 'city_id', 'governorate_id', 'phone', 'national_id', 'location', 'job', 'guaranator_name', 'guaranator_city_id', 'guaranator_governorate_id', 'guaranator_phone', 'guaranator_national_id', 'guaranator_location', 'guaranator_job'
+        'name',
+        'city_id',
+        'governorate_id',
+        'phone',
+        'national_id',
+        'location',
+        'job',
+        'guaranator_name',
+        'guaranator_city_id',
+        'guaranator_governorate_id',
+        'guaranator_phone',
+        'guaranator_national_id',
+        'guaranator_location',
+        'guaranator_job',
     ];
 
     public function city(){

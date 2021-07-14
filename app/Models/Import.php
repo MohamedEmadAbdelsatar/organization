@@ -18,15 +18,29 @@ class Import extends Model
 
     public function getPaidBaseBatchesAttribute(){
         $paid = $this->batches->filter(function ($item) {
-            return $item->status == '1';
-        })->values();
+            return $item->status == '1' && $item->type == '1';
+        });
         return count($paid);
     }
 
-    public function getPaidinterestBatchesAttribute(){
+    public function getUnPaidbaseBatchesAttribute(){
         $paid = $this->batches->filter(function ($item) {
-            return $item->status == '0';
-        })->values();
+            return $item->status == '0' && $item->type == '1';
+        });
+        return count($paid);
+    }
+
+    public function getPaidInterestBatchesAttribute(){
+        $paid = $this->batches->filter(function ($item) {
+            return $item->status == '1' && $item->type == '2';
+        });
+        return count($paid);
+    }
+
+    public function getUnPaidInterestBatchesAttribute(){
+        $paid = $this->batches->filter(function ($item) {
+            return $item->status == '0' && $item->type == '2';
+        });
         return count($paid);
     }
 }

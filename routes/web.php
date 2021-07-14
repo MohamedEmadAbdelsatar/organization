@@ -64,6 +64,8 @@ Route::post('/loan/save_payment', 'LoanController@save_payment')->name('loan.sav
 Route::post('/loan/months', 'LoanController@get_months')->name('loan.months');
 Route::get('/loan/{id}/show', 'LoanController@loan_show')->name('loan.show');
 Route::delete('/loan/destroy/{id}', 'LoanController@loan_destroy')->name('loan.destroy');
+Route::get('/loan/select', 'LoanController@loan_select')->name('loan.select');
+Route::post('/loan/settle', 'LoanController@loan_settle')->name('loan.settle');
 
 //import Routes
 Route::get('/imports', 'ImportController@index')->name('imports');

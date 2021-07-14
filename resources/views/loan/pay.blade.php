@@ -34,7 +34,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div id="myrow" class="form-group row col-sm-8" style="text-align: right;"></div>
+                <div id="myloan" class="form-group row col-sm-4" style="text-align: right;"></div>
+                <div id="mymonth" class="form-group row col-sm-4" style="text-align: right;"></div>
 
             </div>
             <div class="form-group row" style="text-align: right;">
@@ -56,56 +57,67 @@
 @section('js')
 <script>
     $('#borrower_id').on('change', function(){
-
+        $('#myloan').empty();
+        $('#mymonth').empty();
         var id = $(this).val()
         var token = $('input[name="_token"]').val();
-        $.ajax({
-            url:'/borrower/loans',
-            method:'post',
-            data:{
-                id:id,
-                _token:token,
-            },
-            success:function(response){
-                if(typeof(response) != 'object')
-                {
-                    alert(response)
-                }
-                else
-                {
-                    var html = '<label for="load_id" class=" col-form-label" style="padding-left: 0px;">إختر القرض</label><div class="col-sm-4"><select class="form-control" id="load_id" name="load_id"><option></option>';
-                    $.each(response, function(index, element){
-                        html += '<option value="'+element.id+'">'+element.value+'</option>';
-                    })
-                    html += '</select></div>'
-                    $('#myrow').append(html);
-                }
-                $('#load_id').on('change', function(){
-                    var loan_id = $(this).val()
-                    var token = $('input[name="_token"]').val();
-                    $.ajax({
-                    url:'/loan/months',
-                    method:'post',
-                    data:{
-                        loan_id:loan_id,
-                        _token:token,
-                    },
-                    success:function(response){
-                        var html = '<label for="month_id" class=" col-form-label" style="padding-left: 0px;">إختر الشهر</label><div class="col-sm-4"><select class="form-control" id="month_id" name="month_id"><option></option>';
+        if(id){
+            $.ajax({
+                url:'/borrower/loans',
+                method:'post',
+                data:{
+                    id:id,
+                    _token:token,
+                },
+                success:function(response){
+                    $('#myloan').empty();
+                    if(typeof(response) != 'object')
+                    {
+                        alert(response)
+                    }
+                    else
+                    {
+                        var html = '<label for="loan_id" class=" col-form-label" style="padding-left: 0px;">إختر القرض</label><div class="col-sm-8"><select class="form-control" id="loan_id" name="loan_id"><option></option>';
                         $.each(response, function(index, element){
-                            html += '<option value="'+element.id+'">'+element.month_name+' - '+element.value+'</option>';
+                            html += '<option value="'+element.id+'">'+element.value+'</option>';
                         })
                         html += '</select></div>'
-                        $('#myrow').append(html);
+                        $('#myloan').append(html);
                     }
+                    $('#loan_id').on('change', function(){
+                        var loan_id = $(this).val()
+                        var token = $('input[name="_token"]').val();
+                        $('#mymonth').empty();
+                        if(loan_id){
+                            $.ajax({
+                                url:'/loan/months',
+                                method:'post',
+                                data:{
+                                    loan_id:loan_id,
+                                    _token:token,
+                                },
+                                success:function(response){
+                                    $('#mymonth').empty();
+                                    if(typeof(response) != 'object')
+                                    {
+                                        alert(response)
+                                    }
+                                    else
+                                    {
+                                        var html = '</div><label for="month_id" class=" col-form-label" style="padding-left: 0px;">إختر الشهر</label><div class="col-sm-8"><select class="form-control" id="month_id" name="month_id"><option></option>';
+                                        $.each(response, function(index, element){
+                                            html += '<option value="'+element.id+'">'+element.month_name+' - '+element.value+'</option>';
+                                        })
+                                        html += '</select></div>'
+                                        $('#mymonth').append(html);
+                                    }
+                                }
+                            })
+                        }
                     })
-
-                })
-            }
-
-        });
-
+                }
+            });
+        }
     });
-
 </script>
 @stop

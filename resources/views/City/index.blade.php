@@ -96,7 +96,7 @@
                 let url = $(this).data('url');
                 Swal.fire({
                     title: "هل انت متأكد؟",
-                    text: "هل انت متأكد من انك تريد مسح المطعم بكل ما فيه؟",
+                    text: "هل انت متأكد من انك تريد مسح المدينة بكل ما فيه؟",
                     type: "question",
                     showCancelButton: !0,
                     confirmButtonColor: "#3085d6",

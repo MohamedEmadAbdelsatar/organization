@@ -67,8 +67,16 @@
                 <td>{{$import->paid_base_batches}}</td>
             </tr>
             <tr>
+                <td>عدد الأقساط المتبقية من الأساسى</td>
+                <td>{{$import->un_paid_base_batches}}</td>
+            </tr>
+            <tr>
                 <td>عدد الأقساط المدفوعة من الأرباح</td>
                 <td>{{$import->paid_interest_batches}}</td>
+            </tr>
+            <tr>
+                <td>عدد الأقساط المدفوعة من الأرباح</td>
+                <td>{{$import->un_paid_interest_batches}}</td>
             </tr>
             <tr>
                 <td>تاريخ بداية السداد</td>

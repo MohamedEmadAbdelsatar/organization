@@ -7,6 +7,7 @@ use App\Models\Import;
 use App\Models\Supplier;
 use App\Models\Batch;
 use App\Models\Account;
+use App\Models\AccountLog;
 
 class ImportController extends Controller
 {
@@ -89,6 +90,15 @@ class ImportController extends Controller
         $account = Account::find(2);
         $account->charge += $request->value;
         $account->save();
+
+        $log = new AccountLog;
+        $log->type = '2';
+        $log->user_id = $request->supplier_id;
+        $log->interest_id = $import->id;
+        $log->method = 'add';
+        $log->account_id = $account->id;
+        $log->body = ' تم إضافة مبلغ '.$request->value.' إلى حساب الموردين من المورد '.$import->supplier->name;
+        $log->save();
 
         $month = $request->start;
         $year = $request->start_year;
@@ -267,6 +277,20 @@ class ImportController extends Controller
             }
         }
         $import->save();
+
+        if($batch->type == '2'){
+            $m = 'قسط من الفوائد';
+        } else {
+            $m = 'قسط من الأساسى';
+        }
+        $log = new AccountLog;
+        $log->type = '2';
+        $log->user_id = $request->supplier_id;
+        $log->interest_id = $import->id;
+        $log->method = 'minus';
+        $log->account_id = $account->id;
+        $log->body = ' تم تسديد قسط بقيمة '.$request->value.' إلى المورد '.$import->supplier->name.' '.$m;
+        $log->save();
 
         return redirect()->back()->with('success','تم تسديد القسط  بنجاح');
 

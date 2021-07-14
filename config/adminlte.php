@@ -276,6 +276,11 @@ return [
             'icon'        => 'far fa-fw fa-file',
         ],
         [
+            'text'        => 'تسوية قرض',
+            'url'         => '/loan/select',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
             'text'        => 'تسديد وارد',
             'url'         => '/import/pay',
             'icon'        => 'far fa-fw fa-file',

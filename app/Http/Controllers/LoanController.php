@@ -7,6 +7,7 @@ use App\Models\Loan;
 use App\Models\LoanMonths;
 use App\Models\Borrower;
 use App\Models\Account;
+use App\Models\AccountLog;
 
 class LoanController extends Controller
 {
@@ -79,6 +80,18 @@ class LoanController extends Controller
         $loan->remaining = $loan->total;
         $loan->save();
 
+        $log = new AccountLog;
+        $log->type = '1';
+        $log->user_id = $request->borrower_id;
+        $log->interest_id = $loan->id;
+        $log->method = 'minus';
+        $log->account_id = $account->id;
+        if($account->id == '1'){
+            $log->body = ' تم سحب مبلغ '.$request->value.' من حساب الجمعية لعمل قرض ';
+        } else {
+            $log->body = ' تم سحب مبلغ '.$request->value.' من حساب الموردين لعمل قرض ';
+        }
+        $log->save();
         $month = $request->start;
         $year = $request->start_year;
         //$months = ['1' ,'2' ,'3' ,'4' ,'5' ,'6' ,'7' ,'8' ,'9' ,'10' ,'11' ,'12'];
@@ -128,6 +141,7 @@ class LoanController extends Controller
             $loan_month->loan_id = $loan->id;
             $loan_month->value = $loan->installment;
             $loan_month->month_name = $month_name;
+            $loan_month->borrower_id = $loan->borrower_id;
             $loan_month->save();
 
             if($month == 12)
@@ -174,6 +188,18 @@ class LoanController extends Controller
         $account->charge += $month->value;
         $account->save();
 
+        $log = new AccountLog;
+        $log->type = '1';
+        $log->user_id = $loan->borrower_id;
+        $log->interest_id = $loan->id;
+        $log->method = 'add';
+        $log->account_id = $account->id;
+        if($account->id == '1'){
+            $log->body = ' قام المقترض '.$loan->borrower->name.' بتسديد مبلغ '.$month->value.' من القرض وتم إضافته فى حساب الجمعية ';
+        } else {
+            $log->body = ' قام المقترض '.$loan->borrower->name.' بتسديد مبلغ '.$month->value.' من القرض وتم إضافته فى حساب الموردين ';
+        }
+        $log->save();
         return redirect()->back()->with('success','تم تسديد الشهر  بنجاح');
 
     }
@@ -181,5 +207,105 @@ class LoanController extends Controller
     public function loan_show($id){
         $loan = Loan::find($id);
         return view('loan.show', compact('loan'));
+    }
+
+    public function loan_select(){
+        $borrowers = Borrower::all();
+        return view('loan.settle',compact('borrowers'));
+    }
+
+    public function loan_settle(Request $request){
+        $loan = Loan::find($request->loan_id);
+        $loan->status = 1;
+        $loan->save();
+
+        $unpaid_months = LoanMonths::where(['loan_id'=>$request->loan_id,'status'=>'0'])->get();
+
+        $value = 0;
+        foreach($unpaid_months as $month){
+            $value += $month->value;
+        }
+        $total = $value + $value*.16;
+        $installment = $total/12;
+
+        $new_loan = new Loan;
+        $new_loan->borrower_id = $loan->borrower_id;
+        $new_loan->value = $value;
+        $new_loan->earn = 16;
+        $new_loan->installment = number_format((float)$installment, 2, '.', '');
+        $new_loan->total = number_format((float)$total, 2, '.', '');
+        $new_loan->start = $request->start;
+        $new_loan->end = $request->end;
+        $new_loan->start_year = $request->start_year;
+        $new_loan->end_year = $request->end_year;
+        $new_loan->account_id = $loan->account_id;
+        $new_loan->remaining = number_format((float)$total, 2, '.', '');
+        $new_loan->total_paid = 0;
+        $new_loan->save();
+
+        $month = $request->start;
+        $year =  $request->start_year;
+
+        for($i=0;$i<12;$i++)
+        {
+            switch ($month) {
+                case 1:
+                    $month_name = 'يناير';
+                    break;
+                case 2:
+                    $month_name = 'فبراير';
+                    break;
+                case 3:
+                    $month_name = 'مارس';
+                    break;
+                case 4:
+                    $month_name = 'إبريل';
+                    break;
+                case 5:
+                    $month_name = 'مايو';
+                    break;
+                case 6:
+                    $month_name = 'يونيو';
+                    break;
+                case 7:
+                    $month_name = 'يوليو';
+                    break;
+                case 8:
+                    $month_name = 'أغسطس';
+                    break;
+                case 9:
+                    $month_name = 'سبتمبر';
+                    break;
+                case 10:
+                    $month_name = 'أكتوبر';
+                    break;
+                case 11:
+                    $month_name = 'نوفمبر';
+                    break;
+                case 12:
+                    $month_name = 'ديسمبر';
+                    break;
+            }
+            $loan_month = new LoanMonths;
+            $loan_month->index = $month;
+            $loan_month->year = $year;
+            $loan_month->loan_id = $new_loan->id;
+            $loan_month->value = $new_loan->installment;
+            $loan_month->month_name = $month_name;
+            $loan_month->borrower_id = $new_loan->borrower_id;
+            $loan_month->save();
+
+            if($month == 12)
+            {
+                $month = 1;
+                $year++;
+            }
+            else
+            {
+                $month++;
+            }
+        }
+        LoanMonths::where(['loan_id'=>$request->loan_id,'status'=>'0'])->delete();
+        return redirect()->back()->with('success','تم تسوية القرض القديم وإنشاء جديد');
     }
 }
