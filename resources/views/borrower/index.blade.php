@@ -12,6 +12,13 @@
             </ul>
         </div>
     @endif
+    @if (\Session::has('wrong'))
+        <div class="alert alert-danger" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;">{!! \Session::get('wrong') !!}</li>
+            </ul>
+        </div>
+    @endif
 @stop
 
 @section('content')
@@ -210,6 +217,9 @@
                         </tr>
                         </thead>
                         <tbody>
+                            @if(count($borrowers) == 0)
+                            <p>لا يوجد مقترضين مسجلين</p>
+                            @else
                             @foreach($borrowers as $borrower)
                                 <tr class="odd">
                                     <td class="dtr-control sorting_1" tabindex="0"><span style="float:right;">{{$borrower->name}}</span></td>
@@ -218,6 +228,7 @@
                                     <td><span style="float:right;"><a type="button" class="btn btn-success active" href="{{route('borrower.show',$borrower->id)}}">التفاصيل</a> - <a type="button" class="btn btn-success active" href="{{route('borrower.edit',$borrower->id)}}">تعديل</a> - <button type="button" class="btn btn-danger del-btn delete-one" title="مسح" data-url="{{route('borrower.destroy', $borrower->id)}}">حذف</button></span></span></td>
                                 </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -239,7 +250,7 @@
                 let url = $(this).data('url');
                 Swal.fire({
                     title: "هل انت متأكد؟",
-                    text: "هل انت متأكد من انك تريد مسح المطعم بكل ما فيه؟",
+                    text: "هل انت متأكد من انك تريد مسح المقترض بكل ما فيه؟",
                     type: "question",
                     showCancelButton: !0,
                     confirmButtonColor: "#3085d6",

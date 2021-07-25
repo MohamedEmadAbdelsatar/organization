@@ -104,8 +104,10 @@ class BorrowerController extends Controller
     }
 
     public function borrower_destroy($id){
-        loan::where('borrower_id',$id)->delete();
-        loanMonths::where('borrower_id',$id)->delete();
+        $loans = Loan::where('borrower_id',$id)->get();
+        if(count($loans) > 0){
+            return redirect()->back()->with('wrong','لا يمكن حذف المقترض يوجد قرض مسجل للمقترض إحذف القرض أولا');
+        }
         Borrower::where('id',$id)->delete();
         return redirect()->back()->with('success','تم حذف العميل وكل قروضه بنجاح');
     }
@@ -118,4 +120,5 @@ class BorrowerController extends Controller
         }
         return $loans;
     }
+
 }

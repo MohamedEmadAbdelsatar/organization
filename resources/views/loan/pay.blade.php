@@ -8,7 +8,14 @@
     @if (\Session::has('success'))
         <div class="alert alert-success" dir="rtl">
             <ul dir="rtl">
-                <li style="float:right;"><li>{!! \Session::get('success') !!}</li></li>
+                <li style="float:right;">{!! \Session::get('success') !!}</li>
+            </ul>
+        </div>
+    @endif
+    @if (\Session::has('wrong'))
+        <div class="alert alert-danger" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;">{!! \Session::get('wrong') !!}</li>
             </ul>
         </div>
     @endif
@@ -27,7 +34,7 @@
             <div class="form-group row" style="text-align: right;">
                 <label for="borrower_id" class="col-form-label" style="padding-left: 0px;">إسم المقترض</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="borrower_id" name="borrower_id">
+                    <select class="form-control select2" id="borrower_id" name="borrower_id">
                         <option></option>
                         @foreach ($borrowers as $borrower)
                             <option value="{{$borrower->id}}">{{$borrower->name}}</option>
@@ -56,6 +63,9 @@
 
 @section('js')
 <script>
+    $(function(){
+    $('.select2').select2()
+    })
     $('#borrower_id').on('change', function(){
         $('#myloan').empty();
         $('#mymonth').empty();

@@ -27,7 +27,7 @@
             <div class="form-group row" style="text-align: right;">
                 <label for="supplier_id" class="col-form-label" style="padding-left: 0px;">إسم المورد</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="supplier_id" name="supplier_id">
+                    <select class="form-control select2" id="supplier_id" name="supplier_id">
                         <option></option>
                         @foreach ($suppliers as $supplier)
                             <option value="{{$supplier->id}}">{{$supplier->name}}</option>
@@ -55,6 +55,9 @@
 
 @section('js')
 <script>
+    $(function(){
+    $('.select2').select2()
+    })
     $('#supplier_id').on('change', function(){
         $('#myloan').empty();
         $('#mymonth').empty();

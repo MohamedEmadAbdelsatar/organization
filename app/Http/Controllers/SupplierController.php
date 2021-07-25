@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Models\City;
 use App\Models\Governorate;
+use App\Models\Import;
 
 
 
@@ -46,5 +47,14 @@ class SupplierController extends Controller
     public function imports(Request $request){
         $imports = Supplier::find($request->id)->imports;
         return $imports;
+    }
+
+    public function supplier_destroy($id){
+        $imports = Import::where('supplier_id',$id)->get();
+        if(count($imports) > 0){
+            return redirect()->back()->with('wrong','لم يتم حذف المورد يوجد توريدات مسجله لهذا المورد');
+        }
+        Supplier::where('id',$id)->delete();
+        return redirect()->back()->with('success','تم حذف المورد بنجاح');
     }
 }

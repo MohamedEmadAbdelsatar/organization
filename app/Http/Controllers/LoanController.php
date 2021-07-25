@@ -170,13 +170,16 @@ class LoanController extends Controller
     public function save_payment(Request $request){
         //return $request->all();
         $month = LoanMonths::find($request->month_id);
+        if($month->status == 1){
+            return redirect()->back()->with('wrong','هذا الشهر مسدد بالفعل لا يمكن التسديد أكثر من مرة');
+        }
         $month->status = 1;
         $month->save();
 
 
         $paid_months = LoanMonths::where(['loan_id'=>$request->loan_id,'status' => '1'])->get();
         $n = count($paid_months);
-        $loan = Loan::find($request->load_id);
+        $loan = Loan::find($request->loan_id);
         $loan->remaining -= $loan->installment;
         $loan->total_paid += $month->value;
         if($n == 12){
@@ -215,6 +218,7 @@ class LoanController extends Controller
     }
 
     public function loan_settle(Request $request){
+        //return $request->all();
         $loan = Loan::find($request->loan_id);
         $loan->status = 1;
         $loan->save();
@@ -307,5 +311,14 @@ class LoanController extends Controller
         }
         LoanMonths::where(['loan_id'=>$request->loan_id,'status'=>'0'])->delete();
         return redirect()->back()->with('success','تم تسوية القرض القديم وإنشاء جديد');
+    }
+
+    public function loan_destroy($id){
+        $loan = Loan::find($id);
+        if($loan->status == 0){
+            return redirect()->back()->with('wrong','لا يمكن حذف القرض لم يتم تسديد القرض حتى الأن');
+        }
+        Loan::where('id',$id)->delete();
+        return redirect()->back()->with('success','تم حذف القرض بنجاح');
     }
 }

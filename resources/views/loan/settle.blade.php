@@ -27,7 +27,7 @@
             <div class="form-group row" style="text-align: right;">
                 <label for="borrower_id" class="col-form-label" style="padding-left: 0px;">إسم المقترض</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="borrower_id" name="borrower_id">
+                    <select class="form-control select2" id="borrower_id" name="borrower_id">
                         <option></option>
                         @foreach ($borrowers as $borrower)
                             <option value="{{$borrower->id}}">{{$borrower->name}}</option>
@@ -110,6 +110,9 @@
 
 @section('js')
 <script>
+    $(function(){
+    $('.select2').select2()
+    })
     $('#btn-submit').on('click',function(e){
         e.preventDefault();
         var form = $(this).parents('form');
@@ -123,7 +126,12 @@
             confirmButtonText: "نعم متأكد!",
             cancelButtonText: "الغاء",
         }).then(function(isConfirmed){
-            form.submit();
+            //if(isConfirmed){form.submit();}
+            console.log(isConfirmed)
+            if(isConfirmed.value == true){
+                console.log('here')
+                form.submit();
+            }
         });
     });
 

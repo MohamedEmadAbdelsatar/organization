@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LoanMonths;
 use App\Models\Loan;
+use App\Models\Borrower;
+use App\Models\Supplier;
+use App\Models\Batch;
+use Carbon\Carbon;
+
 
 class PrintController extends Controller
 {
     public function index(){
-        return view('print.index');
+        $borrowers = Borrower::all();
+        $suppliers = Supplier::all();
+        return view('print.index',compact('borrowers','suppliers'));
     }
 
     public function pay(Request $request){
@@ -114,5 +121,30 @@ class PrintController extends Controller
         $year = $request->year;
         return view('print.late', compact('months', 'month_name','year'));
 
+    }
+
+    public function loans(Request $request){
+        $start_date = Carbon::parse($request->start_date)
+                             ->toDateTimeString();
+        $end_date = Carbon::parse($request->end_date)
+                             ->toDateTimeString();
+        $start = $request->start_date;
+        $end = $request->end_date;
+       $loans = Loan::whereBetween('created_at',[$start_date,$end_date])->get();
+
+       return view('print.loans',compact('loans','start','end'));
+    }
+
+    public function borrower(Request $request){
+        $borrower = Borrower::find($request->borrower);
+        return view('print.borrower',compact('borrower'));
+    }
+
+    public function batches(Request $request){
+        $month = $request->month;
+        $year = $request->year;
+        $supplier = Supplier::find($request->supplier);
+        $batches = Batch::where(['supplier_id'=>$request->supplier,'month'=>$request->month,'year'=>$request->year])->get();
+        return view('print.batch',compact('batches','month','year','supplier'));
     }
 }

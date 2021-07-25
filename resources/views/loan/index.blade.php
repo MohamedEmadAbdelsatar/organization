@@ -19,6 +19,13 @@
             </ul>
         </div>
     @endif
+    @if (\Session::has('wrong'))
+        <div class="alert alert-danger" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;">{!! \Session::get('wrong') !!}</li>
+            </ul>
+        </div>
+    @endif
 @stop
 
 @section('content')
@@ -34,7 +41,7 @@
             <div class="form-group row" style="text-align: right;">
                 <label for="borrower_id" class=" col-form-label" style="padding-left: 0px;">إسم المقترض</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="borrower_id" name="borrower_id" required>
+                    <select class="form-control select2" id="borrower_id" name="borrower_id" required>
                         @foreach ($borrowers as $borrower)
                             <option value="{{$borrower->id}}">{{$borrower->name}}</option>
                         @endforeach
@@ -177,6 +184,48 @@
 
 @section('js')
 <script>
+    $(function(){
+
+        $('.select2').select2()
+    })
+    $('body').on('click', '.delete-one', function () {
+                let url = $(this).data('url');
+                Swal.fire({
+                    title: "هل انت متأكد؟",
+                    text: "هل انت متأكد من انك تريد مسح المقترض بكل ما فيه؟",
+                    type: "question",
+                    showCancelButton: !0,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "نعم متأكد!",
+                    cancelButtonText: "الغاء",
+                }).then(function (t) {
+                    if (t.value) {
+                        let formElement = document.createElement('form');
+                        formElement.setAttribute('action', url);
+                        formElement.setAttribute('method', 'post');
+                        formElement.setAttribute('class', 'd-none');
+
+                        let tokenElement = document.createElement('input');
+                        tokenElement.setAttribute('name', '_token');
+                        tokenElement.setAttribute('value', '{{ csrf_token() }}');
+                        tokenElement.setAttribute('type', 'hidden');
+
+                        formElement.append(tokenElement);
+
+                        let methodElement = document.createElement('input');
+                        methodElement.setAttribute('name', '_method');
+                        methodElement.setAttribute('value', 'DELETE');
+                        methodElement.setAttribute('type', 'hidden');
+
+                        formElement.append(methodElement);
+
+                        $("body").append(formElement);
+
+                        formElement.submit();
+                    }
+                });
+            });
     $('#start').on('change', function(){
 
         var val = $(this).val()

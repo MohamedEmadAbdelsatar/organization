@@ -246,6 +246,9 @@ class ImportController extends Controller
 
 
         $batch = Batch::find($request->batch_id);
+        if($batch->status == '1'){
+            return redirect()->back()->with('fail','لا يمكن تسديد القسط مسدد مسبقا');
+        }
         $account = Account::find(2);
         if($batch->value > $account->charge){
             return redirect()->back()->with('fail','رصيد الحساب لا يكفى');
@@ -299,6 +302,15 @@ class ImportController extends Controller
     public function import_show($id){
         $import = Import::find($id);
         return view('import.show', compact('import'));
+    }
+
+    public function import_destroy($id){
+        $import = Import::find($id);
+        if($import->status == '0'){
+            return redirect()->back()->with('wrong','لم يتم حذف وارد لعدم إنتهاء السداد ');
+        }
+        Import::where('id',$id)->delete();
+        return redirect()->back()->with('success','تم حذف التوريد بنجاح');
     }
 
 }

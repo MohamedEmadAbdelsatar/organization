@@ -12,6 +12,13 @@
             </ul>
         </div>
     @endif
+    @if (\Session::has('wrong'))
+        <div class="alert alert-danger" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;">{!! \Session::get('wrong') !!}</li>
+            </ul>
+        </div>
+    @endif
 @stop
 
 @section('content')

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'الجمعية',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -30,8 +30,8 @@ return [
     |
     */
 
-    'use_ico_only' => false,
-    'use_full_favicon' => false,
+    'use_ico_only' => true,
+    'use_full_favicon' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -236,53 +236,72 @@ return [
             'topnav_right' => true,
         ],
         [
-            'text'        => 'المحافظات',
-            'url'         => '/governorates',
-            'icon'        => 'far fa-fw fa-file',
+            'text'    => 'العنوان',
+            'icon'    => '',
+            'submenu' => [
+                [
+                    'text'        => 'المحافظات',
+                    'url'         => '/governorates',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+                [
+                    'text'        => 'المدن',
+                    'url'         => '/cities',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+            ],
         ],
         [
-            'text'        => 'المدن',
-            'url'         => '/cities',
-            'icon'        => 'far fa-fw fa-file',
+            'text'    => 'القروض',
+            'icon'    => '',
+            'submenu' => [
+                [
+                    'text'        => 'المقترضين',
+                    'url'         => '/borrowers',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+                [
+                    'text'        => 'القروض',
+                    'url'         => '/loans',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+                [
+                    'text'        => 'تسديد قرض',
+                    'url'         => '/loan/pay',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+                [
+                    'text'        => 'تسوية قرض',
+                    'url'         => '/loan/select',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'الوارد',
+            'icon'    => '',
+            'submenu' => [
+                [
+                    'text'        => 'الموردين',
+                    'url'         => '/suppliers',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+                [
+                    'text'        => 'الوارد',
+                    'url'         => '/imports',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+
+                [
+                    'text'        => 'تسديد وارد',
+                    'url'         => '/import/pay',
+                    'icon'        => 'far fa-fw fa-file',
+                ],
+            ],
         ],
         [
             'text'        => 'الحسابات',
             'url'         => '/accounts',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'الموردين',
-            'url'         => '/suppliers',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'المقترضين',
-            'url'         => '/borrowers',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'القروض',
-            'url'         => '/loans',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'الوارد',
-            'url'         => '/imports',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'تسديد قرض',
-            'url'         => '/loan/pay',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'تسوية قرض',
-            'url'         => '/loan/select',
-            'icon'        => 'far fa-fw fa-file',
-        ],
-        [
-            'text'        => 'تسديد وارد',
-            'url'         => '/import/pay',
             'icon'        => 'far fa-fw fa-file',
         ],
         [
@@ -414,16 +433,16 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
             ],

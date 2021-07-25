@@ -12,6 +12,13 @@
             </ul>
         </div>
     @endif
+    @if (\Session::has('wrong'))
+        <div class="alert alert-danger" dir="rtl">
+            <ul dir="rtl">
+                <li style="float:right;">{!! \Session::get('wrong') !!}</li>
+            </ul>
+        </div>
+    @endif
 @stop
 
 @section('content')
@@ -86,7 +93,7 @@
                 let url = $(this).data('url');
                 Swal.fire({
                     title: "هل انت متأكد؟",
-                    text: "هل انت متأكد من انك تريد مسح المطعم بكل ما فيه؟",
+                    text: "هل انت متأكد من انك تريد مسح المحافظة بكل ما فيه؟",
                     type: "question",
                     showCancelButton: !0,
                     confirmButtonColor: "#3085d6",

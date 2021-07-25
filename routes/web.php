@@ -81,8 +81,10 @@ Route::delete('/import/destroy/{id}', 'ImportController@import_destroy')->name('
 Route::get('/print', 'PrintController@index')->name('print');
 Route::post('/print/pay', 'PrintController@pay')->name('print.pay');
 Route::post('/print/late', 'PrintController@late')->name('print.late');
-
+Route::post('/print/loans', 'PrintController@loans')->name('print.loans');
+Route::post('/print/borrower', 'PrintController@borrower')->name('print.borrower');
+Route::post('/print/batches', 'PrintController@batches')->name('print.batches');
 
 //Account Routes
-Route::get('/accounts', 'AccountController@index')->name('accounr');
+Route::get('/accounts', 'AccountController@index')->name('accounts');
 Route::post('/account/save', 'AccountController@account_save')->name('account.save');

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Governorate;
+use App\Models\Borrower;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+
 
 class GovCityController extends Controller
 {
@@ -59,7 +61,15 @@ class GovCityController extends Controller
     }
 
     public function governorate_destroy($id){
-        City::where('governorate_id',$id)->delete();
+        $cities = City::where('governorate_id',$id)->get();
+        $borrowers = Borrower::where('governorate_id',$id)->orWhere('guaranator_governorate_id',$id)->get();
+        if(count($cities) > 0 && count($borrowers) > 0){
+            return redirect()->back()->with('wrong','لم يتم حذف المحافظة يوجد مقترضين و مدن مسجلين فى هذه المحافظه');
+        }elseif(count($cities) > 0){
+            return redirect()->back()->with('wrong','لم يتم حذف المحافظة يوجد مدن مسجلين فى هذه المحافظه');
+        }elseif(count($borrowers) > 0){
+            return redirect()->back()->with('wrong','لم يتم حذف المحافظة يوجد مقترضين مسجلين فى هذه المحافظه');
+        }
         Governorate::where('id',$id)->delete();
         return redirect()->back()->with('success','تم حذف المحافظة بنجاح');
     }
@@ -76,17 +86,17 @@ class GovCityController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:cities|max:50',
-            'governorate' => 'required',
+            'governorate_id' => 'required',
         ],[
             'name.required' => 'يجب إدخال إسم المدينة',
             'name.unique' => 'يوجد مدينة أخرى بنفس الإسم',
             'name.max' => 'يجب أن يكون إسم المدينة قل من 70 حرف',
-            'governorate.required' => 'يجب إختيار المحافظة',
+            'governorate_id.required' => 'يجب إختيار المحافظة',
         ]);
 
         $city = new City;
         $city->name = $request->name;
-        $city->governorate_id = $request->governorate;
+        $city->governorate_id = $request->governorate_id;
         $city->save();
 
         return redirect()->back()->with('success','تم إنشاء مدينة بنجاح');
@@ -114,6 +124,10 @@ class GovCityController extends Controller
     }
 
     public function city_destroy($id){
+        $borrowers = Borrower::where('city_id',$id)->orWhere('guaranator_city_id',$id)->get();
+        if(count($borrowers) > 0){
+            return redirect()->back()->with('wrong','لم يتم حذف المدينة يوجد مقترضين مسجلين فى هذه المدينة');
+        }
         City::where('id',$id)->delete();
         return redirect()->back()->with('success','تم حذف المدينة بنجاح');
     }
